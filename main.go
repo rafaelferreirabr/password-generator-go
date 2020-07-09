@@ -1,11 +1,27 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"flag"
+)
 
 
 
 func main () {
+
+	flagLength := flag.Int("length", 20, "password length")
+	FlagNumber := flag.Bool("n", false, "Number")
+	flagUppercase := flag.Bool("u", false, "UpperCase")
+	flagLowercase := flag.Bool("l", false, "LoweCase")
+	flagSpecial := flag.Bool("s", false, "special characters")
+	flag.Parse()
+
 	fmt.Println("[SYSTEM]> Starting Password Generator ...")
+	fmt.Println("length: ", *flagLength)
+	fmt.Println("number: ", *FlagNumber)
+	fmt.Println("Uppercase: ", *flagUppercase)
+	fmt.Println("flagLowercase: ", *flagLowercase)
+	fmt.Println("flagSpecial: ", *flagSpecial)
 	number := charsets{
 		min: 48,
 		max: 57,
