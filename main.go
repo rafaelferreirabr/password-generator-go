@@ -10,18 +10,16 @@ import (
 func main () {
 
 	flagLength := flag.Int("length", 20, "password length")
-	FlagNumber := flag.Bool("n", false, "Number")
+	flagNumber := flag.Bool("n", false, "Number")
 	flagUppercase := flag.Bool("u", false, "UpperCase")
 	flagLowercase := flag.Bool("l", false, "LoweCase")
 	flagSpecial := flag.Bool("s", false, "special characters")
 	flag.Parse()
 
+
+
 	fmt.Println("[SYSTEM]> Starting Password Generator ...")
-	fmt.Println("length: ", *flagLength)
-	fmt.Println("number: ", *FlagNumber)
-	fmt.Println("Uppercase: ", *flagUppercase)
-	fmt.Println("flagLowercase: ", *flagLowercase)
-	fmt.Println("flagSpecial: ", *flagSpecial)
+	
 	number := charsets{
 		min: 48,
 		max: 57,
@@ -40,13 +38,22 @@ func main () {
 	}
 
 	passwd := password{
-		length: 30,
+		length: *flagLength,
 	}
-	passwd.types = append(passwd.types, number)
-	passwd.types = append(passwd.types, lowercase)
-	passwd.types = append(passwd.types, uppercase)
-	passwd.types = append(passwd.types, special)
 
+	flagsMap := map[charsets]bool{
+		number:*flagNumber,
+		uppercase:*flagUppercase,
+		lowercase:*flagLowercase,
+		special:*flagSpecial,
+	}
+	fmt.Println("[system]> length: ", *flagLength)
+
+	for key, value := range flagsMap {
+		if value {
+			passwd.types = append(passwd.types, key)
+		}
+	}
 	
 	fmt.Println("[SYSTEM]> Generating password ...")
 	output := passwd.generate()
